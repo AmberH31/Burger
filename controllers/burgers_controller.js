@@ -1,5 +1,5 @@
 var express = require("express");
-
+var path = require("path");
 var router = express.Router();
 
 // Import the model (burger.js) to use its database functions.
@@ -7,27 +7,25 @@ var burger = require("../models/burger.js");
 
 // Create all our routes and set up logic within those routes where required.
 router.get("/", function(req, res) {
-  burger.all(function(data) {
-    var hbsObject = {
-      burgers: data
-    };
-    console.log(hbsObject);
-    res.render("index", hbsObject);
-  });
+  // burger.all(function(data) {
+  //   var hbsObject = {
+  //     burgers: data
+  //   };
+  //   console.log("object", hbsObject);
+  //   res.render("index", hbsObject);
+  // });
+  // res.sendFile(path.join(__dirname, "../public/index.html"));
+  res.render("index");
 });
 
 router.post("/api/burgers", function(req, res) {
-  burger.create(
-    ["burger_name", "devoured"],
-    [req.body.name, req.body.devoured],
-    function(result) {
-      // Send back the ID of the new quote
-      res.json({ id: result.insertId });
-    }
-  );
+  burger.create(req.body.name, function(result) {
+    // Send back the ID of the new quote
+    res.json({ id: result.insertId });
+  });
 });
 
-router.put("/api/cats/:id", function(req, res) {
+router.put("/api/burgers/:id", function(req, res) {
   var condition = "id = " + req.params.id;
 
   console.log("condition", condition);
@@ -49,7 +47,7 @@ router.put("/api/cats/:id", function(req, res) {
 });
 
 //delete
-router.delete("/api/cats/:id", function(req, res) {
+router.delete("/api/burgers/:id", function(req, res) {
   var condition = "id = " + req.params.id;
 
   console.log("condition", condition);

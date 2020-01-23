@@ -1,0 +1,5 @@
+{{#each burger_data}}
+{{#if this.devoured}}
+<input class="form-control" type="text" placeholder="{{this.id}} . {{this.burger_name}}" readonly>
+{{/if}}
+{{/each}}
